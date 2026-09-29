@@ -1,25 +1,55 @@
 # Burn Language Analyzer
 
-A Rust-based language server implementation for the Burn programming language.
+Language server launcher for the [Burn](https://github.com/burnlang/burn) programming language.
+
+Burn ships its language server inside the compiler (`burn lsp`), so it always understands exactly the same
+language as the compiler. `burn-analyzer` is a tiny, dependency-free binary that starts `burn lsp` over stdio,
+so editors that are configured to run `burn-analyzer` keep working.
 
 ## Features
 
-- **Syntax Highlighting**: Provides syntax highlighting for Burn language files
-- **Error Reporting**: Shows syntax and type errors as you type
-- **Code Completion**: Offers context-aware code suggestions
-- **Hover Information**: Displays type information and documentation when hovering over code
-- **Go to Definition**: Jump to where variables, functions, and types are defined
-- **Document Outline**: Provides a structural outline of your code
+Everything comes from `burn lsp`:
 
+- **Error reporting**: syntax and type errors with exact line and column while you type
+- **Code completion**: locals, globals, types, built-ins and members after `.`
+- **Hover information**: inferred types and signatures
+- **Go to definition**: including into imported files
+- **Document outline**
+- **Formatting**
 
-## Development
+## Usage
 
-### Prerequisites
+```bash
+cargo install --path .
+burn-analyzer
+```
 
-- Rust (latest stable)
-- [tower-lsp](https://github.com/ebkalderon/tower-lsp) crate
+`burn-analyzer` looks for the `burn` executable in `$BURN_PATH`, next to its own binary, and on `$PATH`.
+You can also point your editor at `burn lsp` directly.
 
-### Building
+### Neovim
+
+```lua
+vim.lsp.start({ name = "burn", cmd = { "burn-analyzer" }, root_dir = vim.fn.getcwd() })
+```
+
+### Helix
+
+```toml
+[language-server.burn]
+command = "burn-analyzer"
+
+[[language]]
+name = "burn"
+scope = "source.burn"
+file-types = ["bn"]
+language-servers = ["burn"]
+```
+
+`syntaxes/burn.tmLanguage.json` and `language-configuration.json` contain the Burn grammar for editors that
+use TextMate grammars.
+
+## Building
 
 ```bash
 cargo build --release
