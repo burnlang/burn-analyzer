@@ -55,7 +55,7 @@ fn main() -> ExitCode {
         }
     }
     eprintln!(
-        "burn-analyzer: the `burn` executable was not found. Install Burn 2 or set BURN_PATH."
+        "burn-analyzer: the `burn` executable was not found. Install Burn or set BURN_PATH."
     );
     ExitCode::from(1)
 }

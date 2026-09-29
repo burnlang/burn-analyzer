@@ -2,7 +2,7 @@
 
 Language server launcher for the [Burn](https://github.com/burnlang/burn) programming language.
 
-Burn 2 ships its language server inside the compiler (`burn lsp`), so it always understands exactly the same
+Burn ships its language server inside the compiler (`burn lsp`), so it always understands exactly the same
 language as the compiler. `burn-analyzer` is a tiny, dependency-free binary that starts `burn lsp` over stdio,
 so editors that are configured to run `burn-analyzer` keep working.
 
@@ -46,7 +46,7 @@ file-types = ["bn"]
 language-servers = ["burn"]
 ```
 
-`syntaxes/burn.tmLanguage.json` and `language-configuration.json` contain the Burn 2 grammar for editors that
+`syntaxes/burn.tmLanguage.json` and `language-configuration.json` contain the Burn grammar for editors that
 use TextMate grammars.
 
 ## Building
