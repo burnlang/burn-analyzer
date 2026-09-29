@@ -1,6 +1,6 @@
 [package]
 name = "burn-analyzer"
-version = "2.0.0"
+version = "26.1.0-experimental-1"
 edition = "2021"
 description = "Language server launcher for the Burn programming language"
 license = "MIT"
