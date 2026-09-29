@@ -1,3 +1,7 @@
+<p align="center">
+    <img src="https://raw.githubusercontent.com/burnlang/burn/master/assets/logo.svg" alt="Burn logo" width="128">
+</p>
+
 # Burn Language Analyzer
 
 Language server launcher for the [Burn](https://github.com/burnlang/burn) programming language.
@@ -18,6 +22,14 @@ Everything comes from `burn lsp`:
 - **Formatting**
 
 ## Usage
+
+The Burn toolchain installer already provides `burn-lsp`, which is the same language server:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/burnlang/burn/master/install.sh | sh
+```
+
+To install `burn-analyzer` as well:
 
 ```bash
 cargo install --path .
