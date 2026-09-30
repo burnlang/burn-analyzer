@@ -3,7 +3,7 @@ name = "burn-analyzer"
 version = "26.1.0-experimental-1"
 edition = "2021"
 description = "Language server launcher for the Burn programming language"
-license = "MIT"
+license = "GPL-3.0-only"
 repository = "https://github.com/burnlang/burn-analyzer"
 
 [dependencies]
