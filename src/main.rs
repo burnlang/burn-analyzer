@@ -19,6 +19,16 @@ fn candidates() -> Vec<PathBuf> {
     out
 }
 
+fn find_on_path(p: &std::path::Path) -> Option<PathBuf> {
+    if p.components().count() > 1 {
+        return Some(p.to_path_buf());
+    }
+    let paths = std::env::var_os("PATH")?;
+    std::env::split_paths(&paths)
+        .map(|d| d.join(p))
+        .find(|c| c.is_file())
+}
+
 fn usage() {
     println!("burn-analyzer {}", env!("CARGO_PKG_VERSION"));
     println!();
@@ -38,9 +48,21 @@ fn main() -> ExitCode {
         println!("burn-analyzer {}", env!("CARGO_PKG_VERSION"));
         return ExitCode::SUCCESS;
     }
+    if std::env::var_os("BURN_ANALYZER_ACTIVE").is_some() {
+        eprintln!("burn-analyzer: burn-analyzer was started by itself; set BURN_PATH to the burn executable, not to burn-analyzer");
+        return ExitCode::from(1);
+    }
+    let me = std::env::current_exe()
+        .ok()
+        .and_then(|p| std::fs::canonicalize(p).ok());
     for burn in candidates() {
+        let resolved = find_on_path(&burn).and_then(|p| std::fs::canonicalize(p).ok());
+        if resolved.is_some() && resolved == me {
+            continue;
+        }
         let status = Command::new(&burn)
             .arg("lsp")
+            .env("BURN_ANALYZER_ACTIVE", "1")
             .stdin(Stdio::inherit())
             .stdout(Stdio::inherit())
             .stderr(Stdio::inherit())
@@ -54,8 +76,6 @@ fn main() -> ExitCode {
             }
         }
     }
-    eprintln!(
-        "burn-analyzer: the `burn` executable was not found. Install Burn or set BURN_PATH."
-    );
+    eprintln!("burn-analyzer: the `burn` executable was not found. Install Burn or set BURN_PATH.");
     ExitCode::from(1)
 }
