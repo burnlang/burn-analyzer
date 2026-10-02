@@ -5,6 +5,7 @@
   "fileTypes": ["bn"],
   "patterns": [
     { "include": "#comments" },
+    { "include": "#annotations" },
     { "include": "#definitions" },
     { "include": "#functions" },
     { "include": "#keywords" },
@@ -21,14 +22,40 @@
         { "name": "comment.block.burn", "begin": "/\\*", "end": "\\*/" }
       ]
     },
+    "annotations": {
+      "patterns": [
+        {
+          "match": "(@)([A-Za-z_][A-Za-z0-9_]*)",
+          "captures": {
+            "1": { "name": "punctuation.definition.annotation.burn" },
+            "2": { "name": "storage.type.annotation.burn" }
+          }
+        }
+      ]
+    },
     "definitions": {
       "patterns": [
         {
-          "match": "\\b(def)\\s+(type|struct|record|interface|trait|class|enum)\\s+([A-Za-z_][A-Za-z0-9_]*)",
+          "match": "\\b(def)\\s+(?:(abstract|static)\\s+)?(type|struct|record|interface|trait|enum|annotation)\\s+([A-Za-z_][A-Za-z0-9_]*)",
           "captures": {
             "1": { "name": "keyword.declaration.burn" },
-            "2": { "name": "storage.type.burn" },
-            "3": { "name": "entity.name.type.burn" }
+            "2": { "name": "storage.modifier.burn" },
+            "3": { "name": "storage.type.burn" },
+            "4": { "name": "entity.name.type.burn" }
+          }
+        },
+        {
+          "match": "\\b(new)\\s+([A-Za-z_][A-Za-z0-9_]*)",
+          "captures": {
+            "1": { "name": "keyword.operator.new.burn" },
+            "2": { "name": "entity.name.type.burn" }
+          }
+        },
+        {
+          "match": "^\\s*(destroy)\\s+([A-Za-z_][A-Za-z0-9_]*)\\s*(?=\\()",
+          "captures": {
+            "1": { "name": "keyword.other.destroy.burn" },
+            "2": { "name": "variable.other.burn" }
           }
         }
       ]
@@ -46,8 +73,8 @@
     },
     "keywords": {
       "patterns": [
-        { "name": "keyword.control.burn", "match": "\\b(if|else|while|for|in|return|break|continue|await|import)\\b" },
-        { "name": "keyword.declaration.burn", "match": "\\b(fun|var|const|def|async|static|pub|priv)\\b" },
+        { "name": "keyword.control.burn", "match": "\\b(if|else|while|for|in|match|return|break|continue|await|import)\\b" },
+        { "name": "keyword.declaration.burn", "match": "\\b(fun|var|const|def|async|static|abstract|pub|priv)\\b" },
         { "name": "keyword.operator.word.burn", "match": "\\b(is|as)\\b" },
         { "name": "constant.language.burn", "match": "\\b(true|false|null)\\b" },
         { "name": "variable.language.self.burn", "match": "\\bself\\b" }
@@ -110,9 +137,14 @@
     },
     "operators": {
       "patterns": [
+        { "name": "keyword.operator.null-safe.burn", "match": "\\?\\.|\\?\\?|!!" },
         { "name": "keyword.operator.range.burn", "match": "\\.\\.=?" },
+        { "name": "keyword.operator.arrow.burn", "match": "=>" },
+        { "name": "keyword.operator.assignment.burn", "match": ">>>=|<<=|>>=|&=|\\|=|\\^=" },
+        { "name": "keyword.operator.bitwise.burn", "match": ">>>|<<|>>" },
         { "name": "keyword.operator.comparison.burn", "match": "==|!=|<=|>=|<|>" },
         { "name": "keyword.operator.logical.burn", "match": "&&|\\|\\||!" },
+        { "name": "keyword.operator.bitwise.burn", "match": "&|\\||\\^|~" },
         { "name": "keyword.operator.assignment.burn", "match": "\\+=|-=|\\*=|/=|%=|=" },
         { "name": "keyword.operator.arithmetic.burn", "match": "\\+|-|\\*|/|%" },
         { "name": "keyword.operator.nullable.burn", "match": "\\?" }

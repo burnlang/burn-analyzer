@@ -4,4 +4,4 @@ version = 4
 
 [[package]]
 name = "burn-analyzer"
-version = "26.1.0-experimental-1"
+version = "26.1.0-experimental-2"
